@@ -1,0 +1,14 @@
+---
+credentials:
+  default:
+    access_id: AKIAIOSFODNN7EXAMPLE
+    access_key: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+domains:
+  test.example.com:
+    credentials: default
+    users:
+      - test
+    zone_id: Z04815841059ZAAXS2CID
+users:
+  - username: test
+    password: password
