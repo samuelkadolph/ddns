@@ -10,7 +10,7 @@ RUN go mod download
 
 COPY . .
 
-RUN CGO_ENABLED=0 make clean test build
+RUN CGO_ENABLED=0 make clean test build/ddns
 
 # Run Stage
 FROM alpine:latest
@@ -21,7 +21,7 @@ ARG BUILD_DATE
 ARG VCS_REF
 
 LABEL org.label-schema.build-date=$BUILD_DATE
-LABEL org.label-schema.name="ifconfig"
+LABEL org.label-schema.name="ddns"
 LABEL org.label-schema.schema-version="1.0"
 LABEL org.label-schema.vcs-ref=$VCS_REF
 LABEL org.label-schema.vcs-url="https://github.com/samuelkadolph/ddns"

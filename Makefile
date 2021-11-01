@@ -27,6 +27,7 @@ docker-build:
 
 docker-publish: docker-build
 	docker push $(IMAGE_NAME)
+.PHONY: docker-publish
 
 fmt:
 	$(GO) fmt $(addprefix ./,$(PACKAGES))
