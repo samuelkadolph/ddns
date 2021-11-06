@@ -6,7 +6,7 @@ GO ?= go
 IMAGE_NAME ?= samuelkadolph/ddns:latest
 VCS_REF ?= `git rev-parse --short HEAD`
 
-default: build
+default: clean test build
 
 build: build/ddns build/ddns-client
 .PHONY: build
@@ -32,6 +32,10 @@ docker-publish: docker-build
 fmt:
 	$(GO) fmt $(addprefix ./,$(PACKAGES))
 .PHONY: fmt
+
+get:
+	go get ./cmd/ddns ./cmd/ddns-client
+.PHONY: get
 
 test:
 	$(GO) test $(addprefix ./,$(PACKAGES))
