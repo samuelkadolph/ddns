@@ -1,5 +1,5 @@
 # Build Stage
-FROM golang:bullseye AS build
+FROM golang:bookworm AS build
 
 WORKDIR /go/src/github.com/samuelkadolph/ddns
 
@@ -20,7 +20,7 @@ MAINTAINER samuel@kadolph.com
 ARG BUILD_DATE
 ARG VCS_REF
 
-WORKDIR /root
+WORKDIR /app
 
 COPY --from=build /go/src/github.com/samuelkadolph/ddns/build/ddns .
 

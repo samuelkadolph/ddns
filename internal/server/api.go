@@ -18,47 +18,47 @@ type noipAPI baseHandler
 
 func (a *jsonAPI) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "GET" {
-		a.response(w, r, 404, "{\"status\":\"error\",\"error\":\"not found\"}")
+		a.response(w, r, 404, `{"status":"error","error":"not found"}`)
 		return
 	}
 
 	host := r.URL.Query().Get("host")
 	if host == "" {
-		a.response(w, r, 400, "{\"status\":\"error\",\"error\":\"missing parameter 'host'\"}")
+		a.response(w, r, 400, `{"status":"error","error":"missing parameter 'host'"}`)
 		return
 	}
 
 	ip := r.URL.Query().Get("ip")
 	if ip == "" {
-		a.response(w, r, 400, "{\"status\":\"error\",\"error\":\"missing parameter 'ip'\"}")
+		a.response(w, r, 400, `{"status":"error","error":"missing parameter 'ip'"}`)
 		return
 	}
 
 	domain, ok := a.s.config.Domains[host]
 	if !ok {
-		a.response(w, r, 404, "{\"status\":\"error\",\"error\":\"not found\"}")
+		a.response(w, r, 404, `{"status":"error","error":"not found"}`)
 		return
 	}
 
 	username, password, err := decodeBasicAuth(r.Header.Get("Authorization"))
 	if err != nil {
-		a.response(w, r, 401, "{\"status\":\"error\",\"error\":\"unauthorized\"}")
+		a.response(w, r, 401, `{"status":"error","error":"unauthorized"}`)
 		return
 	}
 
 	if !a.s.verifyAuth(domain, username, password) {
-		a.response(w, r, 403, "{\"status\":\"error\",\"error\":\"forbidden\"}")
+		a.response(w, r, 403, `{"status":"error","error":"forbidden"}`)
 		return
 	}
 
 	if err := a.s.r53.UpdateDomain(domain, ip); err != nil {
 		log.Printf("Failed to update %s: %s", domain.Name, err)
-		a.response(w, r, 500, "{\"status\":\"error\",\"error\":\"%s\"}", err)
+		a.response(w, r, 500, `{"status":"error","error":"%s"}`, err)
 		return
 	}
 
 	log.Printf("Updated %s to %s", domain.Name, ip)
-	a.response(w, r, 200, "{\"status\":\"ok\",\"ip\":\"%s\"}", ip)
+	a.response(w, r, 200, `{"status":"ok","ip":"%s"}`, ip)
 	return
 }
 

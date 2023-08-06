@@ -1,4 +1,3 @@
----
 credentials:
   default:
     access_id: AKIAIOSFODNN7EXAMPLE
@@ -7,8 +6,8 @@ domains:
   test.example.com:
     credentials: default
     users:
-      - test
+    - test
     zone_id: Z04815841059ZAAXS2CID
 users:
-  - username: test
-    password: password
+- username: test
+  password: password

@@ -148,7 +148,7 @@ func (c *Config) validate() error {
 			}
 
 			if !found {
-				return errors.New(fmt.Sprintf("domain '%s': could not user named '%s'", name, user))
+				return errors.New(fmt.Sprintf("domain '%s': could not find user named '%s'", name, user))
 			}
 		}
 
