@@ -1,12 +1,13 @@
-version: "3.9"
-
 services:
   app:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.dev
+    environment:
+      RACK_ENV: development
     ports:
-      - "4444:4444"
-    restart: always
+    - 7860:7860
+    restart: no
     volumes:
-      - ./config/ddns.yml:/app/ddns.yml
+    - .:/app
+    - ./config/ddns.yaml:/config/ddns.yaml

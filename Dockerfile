@@ -1,35 +1,33 @@
-# Build Stage
-FROM golang:bookworm AS build
-
-WORKDIR /go/src/github.com/samuelkadolph/ddns
-
-COPY go.mod .
-COPY go.sum .
-
-RUN go mod download
-
-COPY . .
-
-RUN CGO_ENABLED=0 make clean test build/ddns
-
-# Run Stage
-FROM alpine:latest
-
-MAINTAINER samuel@kadolph.com
+FROM ruby:4.0-alpine
 
 ARG BUILD_DATE
 ARG VCS_REF
+ARG VERSION
+
+RUN apk update && apk --no-cache --update add build-base
+
+ENV BUNDLE_WITHOUT=development
+ENV RACK_ENV=production
 
 WORKDIR /app
 
-COPY --from=build /go/src/github.com/samuelkadolph/ddns/build/ddns .
+COPY Gemfile .
+COPY Gemfile.lock .
 
-LABEL org.label-schema.build-date=$BUILD_DATE
-LABEL org.label-schema.name="ddns"
-LABEL org.label-schema.schema-version="1.0"
-LABEL org.label-schema.vcs-ref=$VCS_REF
-LABEL org.label-schema.vcs-url="https://github.com/samuelkadolph/ddns"
+RUN gem install bundler && bundle install
 
-EXPOSE 4444
+COPY . .
 
-CMD ["./ddns"]
+LABEL org.opencontainers.image.authors="samuel@kadolph.com"
+LABEL org.opencontainers.image.created="$BUILD_DATE"
+LABEL org.opencontainers.image.licenses="MIT"
+LABEL org.opencontainers.image.revision="$VCS_REF"
+LABEL org.opencontainers.image.source="https://github.com/samuelkadolph/ddns"
+LABEL org.opencontainers.image.title="ddns"
+LABEL org.opencontainers.image.url="https://github.com/samuelkadolph/ddns"
+LABEL org.opencontainers.image.version="$VERSION"
+
+EXPOSE 7860
+
+CMD ["bundle", "exec", "puma", "--bind", "tcp://0.0.0.0:7860"]
+

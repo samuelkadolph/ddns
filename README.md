@@ -1,37 +1,33 @@
 ## ddns
 
 Simple server for accepting DDNS requests and updating the matching records in
-Route53 with authentication.
+OVHcloud with authentication.
 
 ### Configuration
 
-#### IAM Permission Policy
+#### OVHcloud API Key
+
+Go to `https://auth.ca.ovhcloud.com/api/createToken`. Create API Key with the
+following Rights:
 
 ```
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": [
-                "route53:ChangeResourceRecordSets"
-            ],
-            "Resource": "*"
-        }
-    ]
-}
+GET /domain/zone/*
+PUT /domain/zone/*
+POST /domain/zone/*
+DELETE /domain/zone/*"
 ```
 
 ### Usage
 
-#### pfsense
+#### OPNsense
 
-Under `Services > Dynamic DNS > Dynamic DNS Clients`, click `Add`.
+Under `Services > Dynamic DNS > Settings`, click + (`Add`).
 
 | Setting | Value |
 | :---: | --- |
-| Service Type | `Custom` |
+| Service Type | `custom` |
+| Protocol | `DynDNS 2` |
+| Server | `server.com or IP` |
 | Username | `username` |
 | Password | `password` |
-| Update URL | `https://example.com?host=dynamic.example.com&ip=%IP%` |
-| Result Match | `{"status":"ok","ip":"%IP%"}` |
+| Hostname(s) | `` |

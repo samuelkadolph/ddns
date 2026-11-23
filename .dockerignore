@@ -1,0 +1,6 @@
+.bundle
+.gitignore
+docker-compose.*
+Dockerfile*
+Rakefile
+README.md

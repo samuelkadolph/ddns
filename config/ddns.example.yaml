@@ -1,0 +1,23 @@
+credentials:
+  ovhcloud:
+    type: ovh
+    endpoint: ovh-ca
+    app_key: f3402182b55b9031
+    app_secret: 5592d9a1a88f558fda707bc69825d9e7
+    consumer_key: a5a27d1203a13c9fd944d8c8582da2b3
+
+domains:
+  test.example.com:
+    credentials: ovhcloud
+    users:
+    - test
+    zone: Z04815841059ZAAXS2CID
+
+  other.example.com:
+    credentials: ovhcloud
+    users: test
+    zone: example.com
+
+users:
+- username: test
+  password: password

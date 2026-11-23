@@ -1,0 +1,14 @@
+FROM ruby:4.0-alpine
+
+RUN apk update && apk --no-cache --update add build-base
+
+WORKDIR /app
+
+COPY Gemfile .
+COPY Gemfile.lock .
+
+RUN gem install bundler && bundle install
+
+EXPOSE 7860
+
+CMD ["bundle", "exec", "puma", "-b", "tcp://0.0.0.0:7860"]
