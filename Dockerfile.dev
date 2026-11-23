@@ -1,11 +1,10 @@
 FROM ruby:4.0-alpine
 
-RUN apk update && apk --no-cache --update add build-base
-
 WORKDIR /app
 
-COPY Gemfile .
-COPY Gemfile.lock .
+COPY Gemfile Gemfile.lock .
+
+RUN apk update && apk --no-cache --update add build-base
 
 RUN gem install bundler && bundle install
 
